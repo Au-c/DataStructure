@@ -1,0 +1,4 @@
+﻿  AMGraph.c
+C:\Users\10266\Desktop\Work\DataStructure\06Graph\AMGraph\AMGraph.c(54,9): warning C4101: “j”: 未引用的局部变量
+C:\Users\10266\Desktop\Work\DataStructure\06Graph\AMGraph\AMGraph.c(45): warning C4715: “LocateVex”: 不是所有的控件路径都返回值
+  AMGraph.vcxproj -> C:\Users\10266\Desktop\Work\DataStructure\06Graph\Debug\AMGraph.exe
