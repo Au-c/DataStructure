@@ -1,7 +1,7 @@
 # 数据结构与算法
 ## 写在前面
 
-记录一下数据结构与算法的学习心得。（缓慢施工ing...）
+记录一下数据结构与算法的学习心得。(缓慢施工ing...)
 
 
 
@@ -11,11 +11,29 @@
 
 目前打算上传一些比较经典或者出彩的算法。
 
-关注博客不迷路::point_right::point_right:[传送门](https://au-c.github.io/Blog/)
+现在已经上传的整体内容如下
+
+:trophy::trophy::trophy:
+
+> 图论
+>
+> > 最小生成树
+> >
+> > > Prim 算法
+> >
+> > 最短路径
+> >
+> > > Dijkstra 算法
+> > >
+> > > Floyd 算法
+
+如果对你有帮助，欢迎*Star*:star::star::star:
+
+如果你想看更多的文章，收藏博客不迷路:rocket::airplane: [开启半日游](https://au-c.github.io/Blog/)
 
 
 
-***\*Learn  from:\**** 数据结构(C语言版) 第2版 严蔚敏
+*Learn from:*  数据结构(C语言版) 第2版 严蔚敏
 
 ## 图论
 
@@ -23,19 +41,15 @@
 
 
 
-时间汇总:
+更新日志:
 
-**2021.4.29**更新图的<font color="red">最短路径算法</font>
+:watermelon: **2021.4.29** 更新图的**最短路径算法**
 
 1. `Dijkstra`算法：求图的单源最短路径；
 
 2. `Floyd`算法：求图的多源最短路径；
 
-**2021.4.30**更新图的<font color="red">最小生成树</font>
+:kiwi_fruit: **2021.4.30** 更新图的**最小生成树**
 
 1. `Prim`算法：时间复杂度 `O(n²)`
-
-
-
-欢迎 <font color="#fdbf00">Star</font>:star::star::star:
 
