@@ -1,2 +1,41 @@
-# DataStructure
-This repository stores code about data structures and algorithms
+# 数据结构与算法
+## 写在前面
+
+记录一下数据结构与算法的学习心得。（缓慢施工ing...）
+
+
+
+关于数据结构，概念性知识要翻出大学时期的笔记本重新整理上传，是个大工程，暂且搁置，有时间可以尝试。
+
+
+
+目前打算上传一些比较经典或者出彩的算法。
+
+关注博客不迷路::point_right::point_right:[传送门](https://au-c.github.io/Blog/)
+
+
+
+***\*Learn  from:\**** 数据结构(C语言版) 第2版 严蔚敏
+
+## 图论
+
+关于图，有一些比较晦涩的算法，这里记录一下实现过程，代码我在 `Visual Studio 2019` 上测试过，可以放心食用。
+
+
+
+时间汇总:
+
+**2021.4.29**更新图的<font color="red">最短路径算法</font>
+
+1. `Dijkstra`算法：求图的单源最短路径；
+
+2. `Floyd`算法：求图的多源最短路径；
+
+**2021.4.30**更新图的<font color="red">最小生成树</font>
+
+1. `Prim`算法：时间复杂度 `O(n²)`
+
+
+
+欢迎 <font color="#fdbf00">Star</font>:star::star::star:
+

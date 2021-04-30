@@ -13,6 +13,7 @@
 #define LENGTH(a)   (sizeof(a)/sizeof(a[0]))
 typedef char VexTexType; // 假设顶点数据类型为字符型
 typedef int EdgeType; // 假设边的数据类型为整型
+typedef int ArcType; // 假设边上的权值为整型
 
 /*邻接矩阵*/
 typedef struct {
@@ -22,6 +23,12 @@ typedef struct {
 	int edgenum; // 边数
 }Graph;
 
+/*边*/
+typedef struct edge{
+	VexTexType start; // 边的始点
+	VexTexType end; // 边的终点
+	ArcType lowcost; // 边上的权值
+}Edge;
 /*
  * tools: 读取一个输入字符
  */
@@ -135,6 +142,106 @@ Graph* createUDN_Display()
 }
 
 /*
+* 最小生成树·Prim 算法
+*/
+void Prim(Graph* G, int v0)
+{
+	// 构建辅助数组
+	bool isJoin[MVNum] = { false }; // 记录该顶点是否加入了U集
+	int lowCast[MVNum] = { 0 }; // 存放顶点如果加入到U集的最小权值
+	VexTexType u[MVNum] = { 0 }; // U集, 收纳已经加入最小生成树中的顶点
+	int i, w;
+	int miniCost = 0; // 最小代价之合
+	int count = 0;// 工具中间数,用来记录往最终素组(U集)中已经填入了几个顶点
+
+	// 初始化辅助数组
+	for (i = 0; i < G->vexnum; i++) {
+		isJoin[i] = false;
+		lowCast[i] = G->Edge[v0][i];
+	}
+	isJoin[v0] = true;
+	u[0] = G->Vex[v0];
+	count++;
+
+	// Prim
+	for (i = 0; i < G->vexnum; i++) {
+		if (i == v0) {
+			continue;
+		}
+		int minDis = INF;
+		int nextVex;
+		// 求下一个顶点
+		for (w = 0; w < G->vexnum; w++) {
+			if (!isJoin[w] && lowCast[w] < minDis) {
+				minDis = lowCast[w];
+				nextVex = w;
+			}
+		}
+		isJoin[nextVex] = true;
+		u[count++] = G->Vex[nextVex];
+		miniCost += minDis;
+		// 更新 lowCast
+		for (w = 0; w < G->vexnum; w++) {
+			if (!isJoin[w] && G->Edge[nextVex][w] < lowCast[w]) {
+				lowCast[w] = G->Edge[nextVex][w];
+			}
+		}
+	}
+	// 打印
+	printf("\n******************** Prim ********************\n");
+	printf("\n源点：%c\n", G->Vex[v0]);
+	printf("最小生成树为:  ");
+	for (i = 0; i < G->vexnum; i++) {
+		printf("%c", u[i]);
+	}
+	printf("\n最小代价为:  %d", miniCost);
+}
+
+/*
+* 获取图的所有边
+* return: 一个包含所有边的数组
+*/
+Edge* getEdges(Graph* G)
+{
+	int i, j;
+	int index = 0;
+	Edge *edges;
+	edges = (Edge*)malloc(G->edgenum * sizeof(Edge));
+	// 取邻接矩阵上三角区
+	for (i = 0; i < G->edgenum; i++) {
+		for (j = i+1; j < G->edgenum; j++) {
+			if (G->Edge[i][j] < INF) {
+				edges[index].start = G->Edge[i];
+				edges[index].end = G->Edge[j];
+				edges[index].lowcost = G->Edge[i][j];
+				index++;
+			}
+		}
+	}
+	return edges;
+}
+
+/*
+* 将边按照权值从小到大排列
+*/
+void SortEdge(Edge *edges, int edgenum)
+{
+	Edge temp;
+	for (int i = 0; i < edgenum; i++) {
+		if (edges[i].lowcost > edges[i + 1].lowcost) {
+			temp = edges[i];
+			edges[i] = edges[i + 1];
+			edges[i + 1] = temp;
+		}
+	}
+}
+
+/*
+* 最小生成树·Kruskal 算法
+* 有时间补上
+*/
+
+/*
 * 最短路径·Dijkstra 算法
 */
 void Dijkstra(Graph* G, int v0)
@@ -232,6 +339,7 @@ void main()
 	// G = CreateUDN(G);
 	// 创建无向图·示例图
 	G = createUDN_Display();
+	Prim(G, 5);
 	Floyd(G);
 	Dijkstra(G, 2);
 }
