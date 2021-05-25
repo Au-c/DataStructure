@@ -1,11 +1,13 @@
 #include<stdio.h>
+#include<malloc.h>
+
 #define INF 999
 
 typedef int ElemType;
 
 /*
 * Auther: Au-c
-* Date: 2021-5-24
+* Date: 2021-5-25
 * Blog: https://au-c.github.io/Blog/
 * Github: https://github.com/Au-c
 */
@@ -178,6 +180,108 @@ void SelectSort(ElemType arr[], int n)
 }
 
 /*
+* 调整堆 (大根堆)
+* @param arr {Array} 目标数组
+* @param s {int} 当前子树根节点索引
+* @param n {int} 元素数量
+*/
+void HeapAdjust(ElemType arr[], int s, int n)
+{
+	int i;
+	arr[0] = arr[s];
+	for (i = 2 * s; i <= n; i *= 2)
+	{
+		// 如果左孩子数值更大
+		if (i < n && arr[i] < arr[i + 1]) ++i;
+		// 如果根节点更大
+		if (arr[0] > arr[i]) break;
+		// 调整
+		arr[s] = arr[i];
+		s = i;
+	}
+	arr[s] = arr[0];
+}
+
+/*
+* 创建堆 (大根堆)
+* @param arr {Array} 目标数组
+* @param n {int} 元素数量
+*/
+void CreatHeap(ElemType arr[], int n)
+{
+	for (int i = n / 2; i > 0; i--)
+	{
+		HeapAdjust(arr, i, n);
+	}
+}
+
+/*
+* 堆排序 (大根堆)
+* @return 使用场景：1. 每次把首元素输出，从大到小；2. 排序后的数组：一个从小到大的序列
+* @param arr {Array} 目标数组
+* @param n {int} 元素数量
+*/
+void HeapSort(ElemType arr[], int n)
+{
+	// 创建堆
+	CreatHeap(arr, n);
+	for (int i = n; i > 1; i--)
+	{
+		// 交换根节点与 arr[i]
+		int temp = arr[1];
+		arr[1] = arr[i];
+		arr[i] = temp;
+		// 堆调整
+		HeapAdjust(arr, 1, i - 1);
+	}
+}
+
+/*
+* 归并排序 - 核心
+* @param arr {Array} 目标序列
+* @param low {int} 左序列起始元素索引
+* @param mid {int} 划分左右序列的分界: mid 作为左序列末尾元素索引, mid+1 作为右序列起始元素索引
+* @param high {int} 右序列末尾元素索引
+*/
+void Merge(ElemType arr[], int low, int mid, int high)
+{
+	ElemType* s = (ElemType*)malloc((high - low + 1) * sizeof(ElemType));
+	int i = low;
+	int j = mid + 1;
+	int k = 0;
+	for (k; i <= mid && j <= high; k++)
+	{
+		if (arr[i] <= arr[j]) s[k] = arr[i++];
+		else s[k] = arr[j++];
+	}
+	while (i <= mid) s[k++] = arr[i++];
+	while (j <= high) s[k++] = arr[j++];
+
+	for (i = low, k = 0; k < (high - low + 1); i++, k++)
+	{
+		arr[i] = s[k];
+	}
+	free(s);
+}
+
+/*
+* 归并排序
+* @param arr {Array} 目标序列
+* @param low {int} 左序列起始元素索引
+* @param high {int} 右序列末尾元素索引
+*/
+void MergeSort(ElemType arr[], int low, int high)
+{
+	if (low < high)
+	{
+		int mid = (low + high) / 2;
+		MergeSort(arr, low, mid);
+		MergeSort(arr, mid + 1, high);
+		Merge(arr, low, mid, high);
+	}
+}
+
+/*
 * tool: 打印数组
 * @param flag {int} 0: 打印原始数组; 1: 打印排序后数组
 * @param arr {Array} 目标数组
@@ -205,7 +309,7 @@ void PrintArr(int flag, ElemType arr[], int n)
 int PrintCopyRight()
 {
 	printf("Auther: Au-c\n");
-	printf("Date: 2021-5-24\n");
+	printf("Date: 2021-5-25\n");
 	printf("Blog: https://au-c.github.io/Blog/\n");
 	printf("Github: https://github.com/Au-c\n");
 	return 1024;
@@ -245,4 +349,14 @@ int main()
 	PrintArr(0, arr6, 10);
 	SelectSort(arr6, 10);
 	PrintArr(1, arr6, 10);
+	printf("\n******************** Heap Sort ********************\n");
+	int arr7[] = { INF, 49, 38, 65, 97, 76, 13, 27, 49};
+	PrintArr(0, arr7, 8);
+	HeapSort(arr7, 8);
+	PrintArr(1, arr7, 8);
+	printf("\n******************** Merging Sort ********************\n");
+	int arr8[] = { INF, 49, 38, 65, 97, 76, 13, 27};
+	PrintArr(0, arr8, 7);
+	MergeSort(arr8, 1, 7);
+	PrintArr(1, arr8, 7);
 }
